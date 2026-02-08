@@ -10,6 +10,15 @@
   <body>
     <div class="bg" aria-hidden="true">
       <svg class="diagram" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <style>
+            @keyframes travelPulse {
+              from { transform: translate(var(--tx-start), var(--ty-start)); opacity: 0.1; }
+              10% { opacity: 0.6; }
+              to { transform: translate(var(--tx-end), var(--ty-end)); opacity: 0.1; }
+            }
+          </style>
+        </defs>
         <g class="diagram-lines">
           <!-- Header band -->
           <path d="M60 120 H280 L330 160 H560" />
@@ -30,6 +39,8 @@
           <!-- Footer band -->
           <path d="M100 730 H320 L370 770 H640" />
         </g>
+        <!-- Pulse packet (reused per animation) -->
+        <rect class="signal-packet" width="24" height="12" rx="2" />
       </svg>
     </div>
 

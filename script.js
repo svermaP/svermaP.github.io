@@ -12,41 +12,46 @@ function firePulse() {
   active = true;
 
   const length = path.getTotalLength();
+  if (length <= 0) {
+    active = false;
+    scheduleNext();
+    return;
+  }
 
-  // Dash size: 20–30% of path (the "packet")
-  const dashSize = length * (0.2 + Math.random() * 0.1);
-  // Gap: make it large enough for the dash to traverse the full path
-  const gapSize = length * 2.5;
-  const speed = 1.5 + Math.random() * 0.8; // 1.5–2.3 seconds
+  // Get start point (10% along path)
+  const startPt = path.getPointAtLength(length * 0.1);
+  // Get end point (85% along path)
+  const endPt = path.getPointAtLength(length * 0.85);
 
-  // Apply dash geometry BEFORE animation
-  path.style.strokeDasharray = `${dashSize} ${gapSize}`;
-  // Start: dash is off-screen to the left (negative offset)
-  path.style.strokeDashoffset = -(dashSize + length * 0.5);
+  const speed = 1.8 + Math.random() * 0.6; // 1.8–2.4 seconds
 
-  // Force browser reflow to commit SVG state before animation
-  void path.offsetWidth;
+  const packet = document.querySelector(".signal-packet");
+  if (!packet) {
+    active = false;
+    scheduleNext();
+    return;
+  }
 
-  // Expose calculated offsets to CSS keyframes
-  path.style.setProperty("--dash-start", -(dashSize + length * 0.5));
-  path.style.setProperty("--dash-end", length * 0.5);
-  path.style.animationDuration = `${speed}s`;
+  // Set CSS custom properties for the animation keyframes
+  packet.style.setProperty("--tx-start", `${startPt.x}px`);
+  packet.style.setProperty("--ty-start", `${startPt.y}px`);
+  packet.style.setProperty("--tx-end", `${endPt.x}px`);
+  packet.style.setProperty("--ty-end", `${endPt.y}px`);
+  packet.style.setProperty("--duration", `${speed}s`);
 
-  path.classList.add("signal");
+  // Force reflow
+  void packet.offsetWidth;
+
+  packet.classList.add("pulse");
 
   const cleanup = () => {
-    path.classList.remove("signal");
-    path.style.strokeDasharray = "";
-    path.style.strokeDashoffset = "";
-    path.style.animationDuration = "";
-    path.style.removeProperty("--dash-start");
-    path.style.removeProperty("--dash-end");
-    path.removeEventListener("animationend", cleanup);
+    packet.classList.remove("pulse");
+    packet.removeEventListener("animationend", cleanup);
     active = false;
     scheduleNext();
   };
 
-  path.addEventListener("animationend", cleanup, { once: true });
+  packet.addEventListener("animationend", cleanup, { once: true });
 }
 
 function scheduleNext() {

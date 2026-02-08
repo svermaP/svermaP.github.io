@@ -34,12 +34,16 @@ body {
   stroke: none;
 }
 
-/* Only visible during pulse */
-.diagram-lines path.signal {
-  stroke: var(--pulse);
-  stroke-width: 1.4;
-  stroke-linecap: square;
-  animation: pulseOnce linear 1;
+/* Animated packet traveling along paths */
+.signal-packet {
+  fill: var(--pulse);
+  opacity: 0;
+  transform-origin: center;
+  filter: drop-shadow(0 0 2px rgba(30, 36, 44, 0.2));
+}
+
+.signal-packet.pulse {
+  animation: travelPulse var(--duration) linear 1 forwards;
 }
 
 .page {
@@ -88,22 +92,8 @@ footer {
   color: var(--muted);
 }
 
-@keyframes pulseOnce {
-  from {
-    stroke-dashoffset: var(--dash-start);
-    opacity: 0.1;
-  }
-  20% {
-    opacity: 0.5;
-  }
-  to {
-    stroke-dashoffset: var(--dash-end);
-    opacity: 0.1;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .diagram-lines path.signal {
+  .signal-packet.pulse {
     animation: none;
   }
 }
