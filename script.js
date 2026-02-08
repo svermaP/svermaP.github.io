@@ -11,6 +11,7 @@ const clearSignals = () => {
 
   document.querySelectorAll(".diagram-lines path").forEach((path) => {
     path.classList.remove("signal");
+    path.classList.remove("reveal");
     path.style.animationDuration = "";
     path.style.strokeDasharray = "";
     path.style.removeProperty('--dash');
@@ -24,7 +25,9 @@ const clearSignals = () => {
 
 function _onAnimationEnd(e) {
   const path = e.currentTarget;
+  // cleanup both animation and reveal state to fade out quickly
   path.classList.remove('signal');
+  path.classList.remove('reveal');
   path.style.animationDuration = '';
   path.style.strokeDasharray = '';
   path.style.removeProperty('--dash');
@@ -55,15 +58,14 @@ function fireOnce() {
   candidate.style.setProperty('--gap', Math.round(gap));
   candidate.style.setProperty('--sd-offset', Math.round(gap));
   candidate.style.setProperty('--signal-duration', `${duration.toFixed(2)}s`);
-
+  // reveal baseline quickly, then start the one-shot traversal
+  candidate.classList.add('reveal');
+  const revealDelay = 80 + Math.random() * 140; // 80-220ms before traversal
   candidate.addEventListener('animationend', _onAnimationEnd);
-  // trigger one-shot animation by adding class
-  // small random micro-delay to avoid mechanical timing
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      candidate.classList.add('signal');
-    });
-  });
+  setTimeout(() => {
+    // start the traversal animation (one-shot)
+    candidate.classList.add('signal');
+  }, revealDelay);
 }
 
 function scheduleNext() {

@@ -39,6 +39,9 @@ body {
   stroke: var(--line);
   stroke-width: 1;
   shape-rendering: crispEdges;
+  /* start fully hidden; pulses reveal briefly */
+  stroke-opacity: 0;
+  transition: stroke-opacity 160ms linear;
 }
 
 .diagram-lines path.signal {
@@ -48,7 +51,18 @@ body {
   stroke-dasharray: 12 260;
   /* one-shot traversal; duration set per-path via --signal-duration */
   animation: pulseOnce var(--signal-duration, 1.4s) linear 1;
+.diagram-lines path.reveal {
+  /* quick fade-in to a very low baseline before traversal */
+  stroke-opacity: 0.06;
 }
+
+.diagram-lines path.signal {
+  stroke: var(--pulse);
+  stroke-width: var(--pulse-width);
+  stroke-linecap: square;
+  stroke-dasharray: 12 260;
+  /* one-shot traversal; duration set per-path via --signal-duration */
+  animation: pulseOnce var(--signal-duration, 1.4s) linear 1;
 
 .page {
   position: relative;
@@ -110,30 +124,30 @@ footer {
   0% {
     stroke-dashoffset: var(--sd-offset, var(--sd-default));
     stroke-dasharray: var(--dash, 12) var(--gap, 220);
-    opacity: 0.06;
+    stroke-opacity: 0.06;
   }
   25% {
     /* accelerate and brighten slightly with a small dash irregularity */
     stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * 0.4);
     stroke-dasharray: calc(var(--dash, 12) * 0.9) calc(var(--gap, 220) * 1.08);
-    opacity: 0.34;
+    stroke-opacity: 0.34;
   }
   50% {
     /* mid-traverse subtle flicker / junction highlight */
     stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * 0.02);
     stroke-dasharray: calc(var(--dash, 12) * 1.05) calc(var(--gap, 220) * 0.94);
-    opacity: 0.48;
+    stroke-opacity: 0.48;
   }
   75% {
     /* decelerate and fade */
     stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * -0.35);
     stroke-dasharray: calc(var(--dash, 12) * 0.98) calc(var(--gap, 220) * 1.02);
-    opacity: 0.22;
+    stroke-opacity: 0.22;
   }
   100% {
     stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * -1);
     stroke-dasharray: var(--dash, 12) var(--gap, 220);
-    opacity: 0.06;
+    stroke-opacity: 0.06;
   }
 }
 
@@ -150,5 +164,9 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .diagram-lines path.signal {
     animation: none;
+  }
+  /* keep lines hidden when reduced-motion is active */
+  .diagram-lines path.reveal {
+    stroke-opacity: 0;
   }
 }
