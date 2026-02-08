@@ -1,7 +1,6 @@
 ---
 layout: home
+title: ""
 ---
-# Soumil Verma
-
 Learning log.
 
