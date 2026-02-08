@@ -3,8 +3,10 @@
   --bg: #f7f6f1;
   --ink: #1d2229;
   --muted: #4b5562;
-  --line: rgba(30, 36, 44, 0.06);
-  --pulse: rgba(30, 36, 44, 0.28);
+  --line: rgba(30, 36, 44, 0.035);
+  --pulse: rgba(30, 36, 44, 0.34);
+  --pulse-width: 1.6;
+  --sd-default: 260;
 }
 
 * {
@@ -41,10 +43,11 @@ body {
 
 .diagram-lines path.pulse {
   stroke: var(--pulse);
-  stroke-width: 1.4;
+  stroke-width: var(--pulse-width);
   stroke-linecap: square;
   stroke-dasharray: 12 260;
-  animation: signal 22s linear infinite;
+  /* duration is set per-path via inline style --signal-duration */
+  animation: signal var(--signal-duration, 10s) linear infinite;
 }
 
 .page {
@@ -103,19 +106,37 @@ footer {
 }
 
 @keyframes signal {
+  /* Simulate a quick acceleration, a mid-junction brightening, then gentle deceleration */
   0% {
-    stroke-dashoffset: 260;
-    opacity: 0.1;
+    stroke-dashoffset: var(--sd-offset, var(--sd-default));
+    opacity: 0.06;
   }
-  35% {
-    opacity: 0.45;
+  15% {
+    /* initial rise */
+    stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * 0.6);
+    opacity: 0.34;
   }
-  70% {
-    opacity: 0.2;
+  30% {
+    /* move faster toward junction */
+    stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * 0.25);
+    opacity: 0.22;
+  }
+  45% {
+    /* brief junction spike to suggest corner traversal */
+    stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * 0.05);
+    opacity: 0.56;
+  }
+  60% {
+    /* easing out after junction */
+    stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * -0.25);
+    opacity: 0.28;
+  }
+  85% {
+    opacity: 0.16;
   }
   100% {
-    stroke-dashoffset: -260;
-    opacity: 0.1;
+    stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * -1);
+    opacity: 0.06;
   }
 }
 
