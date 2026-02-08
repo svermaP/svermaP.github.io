@@ -1,12 +1,8 @@
 :root {
-  color-scheme: light;
   --bg: #f7f6f1;
   --ink: #1d2229;
   --muted: #4b5562;
-  --line: rgba(30, 36, 44, 0.035);
-  --pulse: rgba(30, 36, 44, 0.34);
-  --pulse-width: 1.6;
-  --sd-default: 260;
+  --pulse: rgba(30, 36, 44, 0.45);
 }
 
 * {
@@ -15,10 +11,9 @@
 
 body {
   margin: 0;
-  font-family: "IBM Plex Serif", "Source Serif 4", "Times New Roman", serif;
-  color: var(--ink);
+  font-family: "IBM Plex Serif", "Times New Roman", serif;
   background: var(--bg);
-  min-height: 100vh;
+  color: var(--ink);
 }
 
 .bg {
@@ -36,34 +31,16 @@ body {
 
 .diagram-lines path {
   fill: none;
-  /* keep paths completely invisible until a reveal is triggered */
   stroke: transparent;
-  stroke-width: 1;
-  shape-rendering: crispEdges;
-  stroke-opacity: 0;
-  transition: stroke-opacity 160ms linear, stroke 120ms linear;
-}
-
-.diagram-lines path.reveal {
-  /* quick fade-in to a very low baseline before traversal */
-  stroke: var(--pulse);
-  stroke-opacity: 0.06;
+  stroke-width: 1.4;
 }
 
 .diagram-lines path.signal {
   stroke: var(--pulse);
-  stroke-width: var(--pulse-width);
   stroke-linecap: square;
-  stroke-dasharray: 12 260;
-  /* one-shot traversal; duration set per-path via --signal-duration */
-  animation: pulseOnce var(--signal-duration, 1.4s) linear 1;
+  stroke-dasharray: var(--dash) var(--gap);
+  animation: pulseOnce var(--duration) linear 1;
 }
-  stroke: var(--pulse);
-  stroke-width: var(--pulse-width);
-  stroke-linecap: square;
-  stroke-dasharray: 12 260;
-  /* one-shot traversal; duration set per-path via --signal-duration */
-  animation: pulseOnce var(--signal-duration, 1.4s) linear 1;
 
 .page {
   position: relative;
@@ -74,15 +51,14 @@ body {
 }
 
 header h1 {
-  font-size: 2.4rem;
   margin: 0 0 0.4rem;
+  font-size: 2.4rem;
   font-weight: 600;
 }
 
 .subtitle {
-  margin: 0 0 3rem;
+  margin-bottom: 3rem;
   color: var(--muted);
-  font-size: 1rem;
 }
 
 section {
@@ -90,84 +66,44 @@ section {
 }
 
 h2 {
-  margin: 0 0 0.6rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-family: "IBM Plex Sans", "Source Sans 3", "Helvetica Neue", sans-serif;
   color: var(--muted);
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 p,
 li {
-  font-size: 1rem;
   line-height: 1.6;
 }
 
 ul {
-  margin: 0;
   padding-left: 1.2rem;
-}
-
-li {
-  margin-bottom: 0.6rem;
 }
 
 footer {
   border-top: 1px solid rgba(30, 36, 44, 0.12);
   padding-top: 1.5rem;
   color: var(--muted);
-  font-size: 0.95rem;
 }
 
 @keyframes pulseOnce {
-  /* One traversal with slight flicker and dash irregularity to suggest energy */
   0% {
-    stroke-dashoffset: var(--sd-offset, var(--sd-default));
-    stroke-dasharray: var(--dash, 12) var(--gap, 220);
-    stroke-opacity: 0.06;
+    stroke-dashoffset: var(--offset);
+    stroke-opacity: 0.1;
   }
-  25% {
-    /* accelerate and brighten slightly with a small dash irregularity */
-    stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * 0.4);
-    stroke-dasharray: calc(var(--dash, 12) * 0.9) calc(var(--gap, 220) * 1.08);
-    stroke-opacity: 0.34;
-  }
-  50% {
-    /* mid-traverse subtle flicker / junction highlight */
-    stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * 0.02);
-    stroke-dasharray: calc(var(--dash, 12) * 1.05) calc(var(--gap, 220) * 0.94);
-    stroke-opacity: 0.48;
-  }
-  75% {
-    /* decelerate and fade */
-    stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * -0.35);
-    stroke-dasharray: calc(var(--dash, 12) * 0.98) calc(var(--gap, 220) * 1.02);
-    stroke-opacity: 0.22;
+  40% {
+    stroke-opacity: 0.55;
   }
   100% {
-    stroke-dashoffset: calc(var(--sd-offset, var(--sd-default)) * -1);
-    stroke-dasharray: var(--dash, 12) var(--gap, 220);
-    stroke-opacity: 0.06;
-  }
-}
-
-@media (max-width: 640px) {
-  .page {
-    padding: 4.5rem 1.5rem 3.5rem;
-  }
-
-  header h1 {
-    font-size: 2rem;
+    stroke-dashoffset: calc(var(--offset) * -1);
+    stroke-opacity: 0.05;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .diagram-lines path.signal {
     animation: none;
-  }
-  /* keep lines hidden when reduced-motion is active */
-  .diagram-lines path.reveal {
-    stroke-opacity: 0;
   }
 }

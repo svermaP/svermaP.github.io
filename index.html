@@ -3,20 +3,23 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Systems & Chip Design — Portfolio</title>
+    <title>Soumil Verma — Systems & Chip Design</title>
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
     <div class="bg" aria-hidden="true">
-      <svg class="diagram" viewBox="0 0 1200 800" role="img" aria-label="Subtle system diagram background">
+      <svg class="diagram" viewBox="0 0 1200 800">
         <g class="diagram-lines">
-          <!-- Waveform-like paths for signal propagation feel -->
-          <path d="M20 140 C200 80, 380 200, 560 140 S920 200, 1180 140" />
-          <path d="M20 220 C200 160, 380 280, 560 220 S920 280, 1180 220" />
-          <path d="M20 300 C200 240, 380 360, 560 300 S920 360, 1180 300" />
-          <path d="M20 380 C200 320, 380 440, 560 380 S920 440, 1180 380" />
-          <path d="M20 460 C200 400, 380 520, 560 460 S920 520, 1180 460" />
-          <path d="M20 540 C200 480, 380 600, 560 540 S920 600, 1180 540" />
+          <!-- Routing-style paths -->
+          <path d="M40 140 H260 L300 180 H520" />
+          <path d="M80 200 H420 L460 160 H780" />
+          <path d="M60 260 H300 L340 300 H640" />
+          <path d="M100 320 H500 L540 280 H880" />
+          <path d="M40 380 H240 L300 420 H560" />
+          <path d="M120 440 H420 L480 400 H760" />
+          <path d="M80 500 H360 L420 540 H700" />
+          <path d="M60 560 H260 L320 520 H520" />
         </g>
       </svg>
     </div>
@@ -24,42 +27,45 @@
     <main class="page">
       <header>
         <h1>Soumil Verma</h1>
-        <p class="subtitle">Computer Engineering student focused on systems and chip design.</p>
+        <p class="subtitle">
+          Computer Engineering student focused on systems and chip design.
+        </p>
       </header>
 
-      <section id="about">
+      <section>
         <h2>About</h2>
         <p>
-          I study computer architecture, digital logic, and performance-aware systems
-          programming. I’m interested in the boundary between hardware constraints and
-          software behavior, with a focus on reliable, measurable design.
+          I study computer architecture, digital logic, and performance-aware
+          systems programming. I care about the boundary between hardware
+          constraints and software behavior, with an emphasis on measurable,
+          reliable design.
         </p>
       </section>
 
-      <section id="projects">
+      <section>
         <h2>Projects</h2>
         <ul>
           <li>
-            <strong>RISC-V Core (FPGA)</strong> — single-issue pipeline with a minimal
-            hazard unit and on-chip memory integration.
+            <strong>RISC-V Core (FPGA)</strong> — single-issue pipeline with
+            minimal hazard handling and on-chip memory.
           </li>
           <li>
-            <strong>Cache-Aware Kernel Benchmarks</strong> — microbenchmarks analyzing
-            locality, bandwidth, and instruction-level behavior.
+            <strong>Cache-Aware Kernel Benchmarks</strong> — microbenchmarks for
+            locality, bandwidth, and instruction behavior.
           </li>
           <li>
-            <strong>UART + DMA Controller</strong> — configurable serial block with
-            interrupt-driven control and verification tests.
+            <strong>UART + DMA Controller</strong> — interrupt-driven serial
+            block with verification tests.
           </li>
         </ul>
       </section>
 
-      <section id="notes">
+      <section>
         <h2>Notes</h2>
         <ul>
-          <li>On-chip interconnect: arbitration strategies and backpressure.</li>
-          <li>Measuring CPI in real workloads without distorting behavior.</li>
-          <li>Why timing closure fails: constraints, fanout, and routing pressure.</li>
+          <li>On-chip interconnect arbitration and backpressure.</li>
+          <li>Measuring CPI without perturbing execution.</li>
+          <li>Why timing closure fails in real designs.</li>
         </ul>
       </section>
 
