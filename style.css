@@ -36,12 +36,18 @@ body {
 
 .diagram-lines path {
   fill: none;
-  stroke: var(--line);
+  /* keep paths completely invisible until a reveal is triggered */
+  stroke: transparent;
   stroke-width: 1;
   shape-rendering: crispEdges;
-  /* start fully hidden; pulses reveal briefly */
   stroke-opacity: 0;
-  transition: stroke-opacity 160ms linear;
+  transition: stroke-opacity 160ms linear, stroke 120ms linear;
+}
+
+.diagram-lines path.reveal {
+  /* quick fade-in to a very low baseline before traversal */
+  stroke: var(--pulse);
+  stroke-opacity: 0.06;
 }
 
 .diagram-lines path.signal {
@@ -51,12 +57,7 @@ body {
   stroke-dasharray: 12 260;
   /* one-shot traversal; duration set per-path via --signal-duration */
   animation: pulseOnce var(--signal-duration, 1.4s) linear 1;
-.diagram-lines path.reveal {
-  /* quick fade-in to a very low baseline before traversal */
-  stroke-opacity: 0.06;
 }
-
-.diagram-lines path.signal {
   stroke: var(--pulse);
   stroke-width: var(--pulse-width);
   stroke-linecap: square;
