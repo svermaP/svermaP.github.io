@@ -2,7 +2,8 @@
   --bg: #f7f6f1;
   --ink: #1d2229;
   --muted: #4b5562;
-  --pulse: rgba(30, 36, 44, 0.45);
+  --line-gray: rgba(30, 36, 44, 0.12);
+  --pulse-blue: #2563eb;
 }
 
 * {
@@ -31,15 +32,17 @@ body {
 
 .diagram-lines path {
   fill: none;
-  stroke: none;
+  stroke: var(--line-gray);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
 }
 
 /* Animated packet traveling along paths */
 .signal-packet {
-  fill: var(--pulse);
+  fill: var(--pulse-blue);
   opacity: 0;
   transform-origin: center;
-  filter: drop-shadow(0 0 4px rgba(30, 36, 44, 0.5));
+  filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.6)) drop-shadow(0 0 2px rgba(37, 99, 235, 0.3));
 }
 
 .signal-packet.pulse {

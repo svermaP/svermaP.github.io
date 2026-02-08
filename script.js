@@ -1,20 +1,19 @@
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-let activeCount = 0;
-const maxConcurrent = 2;
+let active = false;
 let timer = null;
 
 function firePulse() {
-  if (activeCount >= maxConcurrent || prefersReduced.matches) return;
+  if (active || prefersReduced.matches) return;
 
   const paths = document.querySelectorAll(".diagram-lines path");
   if (!paths.length) return;
 
   const path = paths[Math.floor(Math.random() * paths.length)];
-  activeCount++;
+  active = true;
 
   const length = path.getTotalLength();
   if (length <= 0) {
-    activeCount--;
+    active = false;
     scheduleNext();
     return;
   }
@@ -26,19 +25,12 @@ function firePulse() {
 
   const speed = 1.8 + Math.random() * 0.6; // 1.8–2.4 seconds
 
-  // Clone a packet so multiple can animate at once
-  const svg = document.querySelector(".diagram");
-  const templatePacket = document.querySelector(".signal-packet");
-
-  if (!svg || !templatePacket) {
-    activeCount--;
+  const packet = document.querySelector(".signal-packet");
+  if (!packet) {
+    active = false;
     scheduleNext();
     return;
   }
-
-  const packet = templatePacket.cloneNode(true);
-  packet.classList.remove("pulse");
-  svg.appendChild(packet);
 
   // Set CSS custom properties for the animation keyframes
   packet.style.setProperty("--tx-start", `${startPt.x}px`);
@@ -53,9 +45,9 @@ function firePulse() {
   packet.classList.add("pulse");
 
   const cleanup = () => {
+    packet.classList.remove("pulse");
     packet.removeEventListener("animationend", cleanup);
-    packet.remove();
-    activeCount--;
+    active = false;
     scheduleNext();
   };
 
@@ -67,8 +59,7 @@ function scheduleNext() {
     clearTimeout(timer);
     return;
   }
-  // Fire pulses more frequently for that "light pulsing" feel
-  const delay = 1200 + Math.random() * 1800; // 1.2–3s between pulses
+  const delay = 4000 + Math.random() * 16000;
   timer = setTimeout(firePulse, delay);
 }
 
@@ -78,6 +69,6 @@ if (!prefersReduced.matches) {
 
 prefersReduced.addEventListener("change", (e) => {
   clearTimeout(timer);
-  activeCount = 0;
+  active = false;
   if (!e.matches) scheduleNext();
 });

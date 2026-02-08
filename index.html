@@ -14,30 +14,59 @@
           <style>
             @keyframes travelPulse {
               from { transform: translate(var(--tx-start), var(--ty-start)); opacity: 0.2; }
-              10% { opacity: 0.75; }
+              15% { opacity: 0.8; }
               to { transform: translate(var(--tx-end), var(--ty-end)); opacity: 0.15; }
             }
           </style>
         </defs>
         <g class="diagram-lines">
-          <!-- Header band -->
-          <path d="M60 120 H280 L330 160 H560" />
-          <path d="M140 160 H460 L500 120 H820" />
-
-          <!-- About band -->
-          <path d="M80 270 H320 L360 310 H640" />
-          <path d="M160 310 H540 L580 270 H860" />
-
-          <!-- Projects band -->
-          <path d="M60 420 H280 L330 460 H600" />
-          <path d="M140 460 H520 L560 420 H840" />
-
-          <!-- Notes band -->
-          <path d="M80 570 H340 L380 610 H660" />
-          <path d="M160 610 H560 L600 570 H900" />
-
-          <!-- Footer band -->
-          <path d="M100 730 H320 L370 770 H640" />
+          <!-- Top band traces -->
+          <path d="M40 120 H180 V140 H280 V100 H420" />
+          <path d="M50 160 H220 V180 H360 V150 H500" />
+          
+          <!-- Upper-mid band traces -->
+          <path d="M30 240 H150 V260 H320 V230 H480" />
+          <path d="M60 280 H200 V300 H380 V270 H540" />
+          
+          <!-- Center band traces -->
+          <path d="M40 360 H180 V380 H340 V350 H500" />
+          <path d="M70 400 H230 V420 H400 V390 H550" />
+          
+          <!-- Lower-mid band traces -->
+          <path d="M50 480 H200 V500 H360 V470 H520" />
+          <path d="M35 540 H170 V560 H320 V530 H480" />
+          
+          <!-- Bottom band traces -->
+          <path d="M45 620 H190 V640 H350 V610 H510" />
+          <path d="M60 680 H220 V700 H380 V670 H540" />
+          
+          <!-- Right-side additional traces -->
+          <path d="M550 100 H750 V120 H920" />
+          <path d="M560 160 H780 V180 H950" />
+          <path d="M540 260 H760 V280 H930" />
+          <path d="M570 340 H800 V360 H970" />
+          <path d="M550 420 H780 V440 H940" />
+          <path d="M560 540 H800 V560 H950" />
+          <path d="M535 640 H770 V660 H930" />
+          
+          <!-- Junction dots -->
+          <circle cx="180" cy="140" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="220" cy="180" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="150" cy="260" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="200" cy="300" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="180" cy="380" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="230" cy="420" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="200" cy="500" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="170" cy="560" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="190" cy="640" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="220" cy="700" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="750" cy="120" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="780" cy="180" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="760" cy="280" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="800" cy="360" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="780" cy="440" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="800" cy="560" r="3" fill="rgba(30, 36, 44, 0.3)" />
+          <circle cx="770" cy="660" r="3" fill="rgba(30, 36, 44, 0.3)" />
         </g>
         <!-- Pulse packet (reused per animation) -->
         <rect class="signal-packet" width="24" height="12" rx="2" />
