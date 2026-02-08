@@ -12,10 +12,15 @@
       <svg class="diagram" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid slice">
         <defs>
           <style>
-            @keyframes travelPulse {
-              from { transform: translate(var(--tx-start), var(--ty-start)); opacity: 0.2; }
-              15% { opacity: 0.8; }
-              to { transform: translate(var(--tx-end), var(--ty-end)); opacity: 0.15; }
+            @keyframes strokePulse {
+              from {
+                stroke-dashoffset: var(--offset-start);
+                opacity: 1;
+              }
+              to {
+                stroke-dashoffset: var(--offset-end);
+                opacity: 0.3;
+              }
             }
           </style>
         </defs>
@@ -48,28 +53,7 @@
           <path d="M550 420 H780 V440 H940" />
           <path d="M560 540 H800 V560 H950" />
           <path d="M535 640 H770 V660 H930" />
-          
-          <!-- Junction dots -->
-          <circle cx="180" cy="140" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="220" cy="180" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="150" cy="260" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="200" cy="300" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="180" cy="380" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="230" cy="420" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="200" cy="500" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="170" cy="560" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="190" cy="640" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="220" cy="700" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="750" cy="120" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="780" cy="180" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="760" cy="280" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="800" cy="360" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="780" cy="440" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="800" cy="560" r="3" fill="rgba(30, 36, 44, 0.3)" />
-          <circle cx="770" cy="660" r="3" fill="rgba(30, 36, 44, 0.3)" />
         </g>
-        <!-- Pulse packet (reused per animation) -->
-        <rect class="signal-packet" width="24" height="12" rx="2" />
       </svg>
     </div>
 

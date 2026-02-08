@@ -5,53 +5,58 @@ let timer = null;
 function firePulse() {
   if (active || prefersReduced.matches) return;
 
-  const paths = document.querySelectorAll(".diagram-lines path");
+  const paths = document.querySelectorAll(".diagram-lines path:not(.pulse-overlay)");
   if (!paths.length) return;
 
-  const path = paths[Math.floor(Math.random() * paths.length)];
+  const originalPath = paths[Math.floor(Math.random() * paths.length)];
   active = true;
 
-  const length = path.getTotalLength();
+  const length = originalPath.getTotalLength();
   if (length <= 0) {
     active = false;
     scheduleNext();
     return;
   }
 
-  // Get start point (10% along path)
-  const startPt = path.getPointAtLength(length * 0.1);
-  // Get end point (85% along path)
-  const endPt = path.getPointAtLength(length * 0.85);
+  // Clone the path so the pulse animates on top of the static trace
+  const pulsePath = originalPath.cloneNode(true);
+  pulsePath.classList.add("pulse-overlay");
+  originalPath.parentNode.appendChild(pulsePath);
+
+  // Dash size: ~25% of path length (the "head and tail" of the signal)
+  const dashSize = length * 0.25;
+  // Gap: large enough for the dash to traverse the entire path
+  const gapSize = length * 2;
+
+  // Offset calculations: dash travels from off-screen-left to off-screen-right
+  const offsetStart = gapSize;        // Dash starts beyond left end
+  const offsetEnd = -dashSize - length; // Dash ends beyond right end
 
   const speed = 1.8 + Math.random() * 0.6; // 1.8–2.4 seconds
 
-  const packet = document.querySelector(".signal-packet");
-  if (!packet) {
-    active = false;
-    scheduleNext();
-    return;
-  }
+  // Apply stroke geometry
+  pulsePath.style.strokeDasharray = `${dashSize} ${gapSize}`;
+  pulsePath.style.strokeDashoffset = offsetStart;
 
-  // Set CSS custom properties for the animation keyframes
-  packet.style.setProperty("--tx-start", `${startPt.x}px`);
-  packet.style.setProperty("--ty-start", `${startPt.y}px`);
-  packet.style.setProperty("--tx-end", `${endPt.x}px`);
-  packet.style.setProperty("--ty-end", `${endPt.y}px`);
-  packet.style.setProperty("--duration", `${speed}s`);
+  // Expose to CSS animation
+  pulsePath.style.setProperty("--offset-start", offsetStart);
+  pulsePath.style.setProperty("--offset-end", offsetEnd);
+  pulsePath.style.setProperty("--duration", `${speed}s`);
 
-  // Force reflow
-  void packet.offsetWidth;
+  // Force layout to commit stroke state before animation
+  void pulsePath.offsetWidth;
 
-  packet.classList.add("pulse");
+  // Trigger animation
+  pulsePath.classList.add("pulse-overlay"); // Ensure class is applied
 
   const cleanup = () => {
-    packet.classList.remove("pulse");
-    packet.removeEventListener("animationend", cleanup);
+    pulsePath.removeEventListener("animationend", cleanup);
+    pulsePath.remove();
     active = false;
     scheduleNext();
   };
 
-  packet.addEventListener("animationend", cleanup, { once: true });
+  pulsePath.addEventListener("animationend", cleanup, { once: true });
 }
 
 function scheduleNext() {

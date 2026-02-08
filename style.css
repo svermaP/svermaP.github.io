@@ -37,16 +37,13 @@ body {
   shape-rendering: crispEdges;
 }
 
-/* Animated packet traveling along paths */
-.signal-packet {
-  fill: var(--pulse-blue);
-  opacity: 0;
-  transform-origin: center;
-  filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.6)) drop-shadow(0 0 2px rgba(37, 99, 235, 0.3));
-}
-
-.signal-packet.pulse {
-  animation: travelPulse var(--duration) linear 1 forwards;
+/* Pulse overlay: cloned path animated along its own geometry */
+.diagram-lines path.pulse-overlay {
+  stroke: var(--pulse-blue);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.5)) drop-shadow(0 0 1px rgba(37, 99, 235, 0.7));
+  animation: strokePulse var(--duration) linear 1 forwards;
 }
 
 .page {
@@ -96,7 +93,7 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .signal-packet.pulse {
+  .diagram-lines path.pulse-overlay {
     animation: none;
   }
 }
