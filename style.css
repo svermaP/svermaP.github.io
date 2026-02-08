@@ -31,15 +31,15 @@ body {
 
 .diagram-lines path {
   fill: none;
-  stroke: transparent;
-  stroke-width: 1.4;
+  stroke: none;
 }
 
+/* Only visible during a pulse */
 .diagram-lines path.signal {
   stroke: var(--pulse);
+  stroke-width: 1.4;
   stroke-linecap: square;
-  stroke-dasharray: var(--dash) var(--gap);
-  animation: pulseOnce var(--duration) linear 1;
+  animation: pulseOnce linear 1;
 }
 
 .page {
@@ -89,15 +89,15 @@ footer {
 }
 
 @keyframes pulseOnce {
-  0% {
+  from {
     stroke-dashoffset: var(--offset);
-    stroke-opacity: 0.1;
+    stroke-opacity: 0.15;
   }
   40% {
-    stroke-opacity: 0.55;
+    stroke-opacity: 0.5;
   }
-  100% {
-    stroke-dashoffset: calc(var(--offset) * -1);
+  to {
+    stroke-dashoffset: 0;
     stroke-opacity: 0.05;
   }
 }

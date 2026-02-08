@@ -1,5 +1,6 @@
 const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 let active = false;
+let timer = null;
 
 function firePulse() {
   if (active || prefersReduced.matches) return;
@@ -10,14 +11,16 @@ function firePulse() {
   const path = paths[Math.floor(Math.random() * paths.length)];
   active = true;
 
-  const dash = 8 + Math.random() * 10;
-  const gap = 180 + Math.random() * 160;
-  const duration = 0.9 + Math.random() * 0.6;
+  const length = path.getTotalLength();
 
-  path.style.setProperty("--dash", dash);
-  path.style.setProperty("--gap", gap);
+  const dash = Math.max(10, length * 0.08);
+  const gap = length;
+  const duration = 0.9 + Math.random() * 0.5;
+
+  path.style.strokeDasharray = `${dash} ${gap}`;
+  path.style.strokeDashoffset = gap;
   path.style.setProperty("--offset", gap);
-  path.style.setProperty("--duration", `${duration}s`);
+  path.style.animationDuration = `${duration}s`;
 
   path.classList.add("signal");
 
@@ -25,6 +28,9 @@ function firePulse() {
     "animationend",
     () => {
       path.classList.remove("signal");
+      path.style.strokeDasharray = "";
+      path.style.strokeDashoffset = "";
+      path.style.animationDuration = "";
       active = false;
       scheduleNext();
     },
@@ -34,9 +40,15 @@ function firePulse() {
 
 function scheduleNext() {
   const delay = 4000 + Math.random() * 16000;
-  setTimeout(firePulse, delay);
+  timer = setTimeout(firePulse, delay);
 }
 
 if (!prefersReduced.matches) {
   scheduleNext();
 }
+
+prefersReduced.addEventListener("change", (e) => {
+  clearTimeout(timer);
+  active = false;
+  if (!e.matches) scheduleNext();
+});
